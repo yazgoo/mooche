@@ -129,7 +129,7 @@ function set_content(str) {
     content.innerHTML = str;
 }
 function show_imports() {
-    set_content("<textarea onchange='load_songs(this)'></textarea>");
+    set_content("<input type=text onchange='load_songs(this)'/>");
 }
 function show_songs() {
     show_songs_list(document.getElementById('content'));

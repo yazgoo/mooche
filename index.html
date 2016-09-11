@@ -2,8 +2,10 @@
 <html>
 <body>
     <style>
-span {
+body {
     font-family: sans-serif;
+}
+span {
     font-weight: bold;
 }
 .part_start {
@@ -131,6 +133,19 @@ function set_content(str) {
 function show_imports() {
     set_content("<input type=text onchange='load_songs(this)'/>");
 }
+function show_about() {
+    set_content('Mooche is <b>free</b> software (as in freedom).<br/>'
+            +'This means it guarantees 4 fundamentals rights:<br/>'
+            +'<ul>'
+            +'<li>Freedom 0: The freedom to <b>run</b> the program for any purpose.</li>'
+            +'<li>Freedom 1: The freedom to <b>study</b> how the program works, and change it to make it do what you wish.</li>'
+            +'<li>Freedom 2: The freedom to <b>redistribute</b> and make copies so you can help your neighbor.</li>'
+            +'<li>Freedom 3: The freedom to <b>improve</b> the program, and release your improvements (and modified versions in general) to the public, so that the whole community benefits.</li>'
+            +'</ul>'
+            +'<iframe width="560" height="315" src="'
+            +'https://www.youtube.com/embed/CDVZdZMCc0w"'
+            +' frameborder="0" allowfullscreen></iframe>')
+}
 function show_songs() {
     show_songs_list(document.getElementById('content'));
 }
@@ -146,6 +161,7 @@ function show_songs_or_last_song() {
     <div>
         <input type="button" onclick="show_imports()" value="imports"/>
         <input type="button"  onclick="show_songs()" value="songs"/>
+        <input type="button"  onclick="show_about()" value="about"/>
     </div>
     <div id="content">
     </div>

@@ -110,6 +110,37 @@ function get_sheet(unwarbled) {
     }
     return out + close_span + close_div;
 }
+function line_to_mma_chords(line) {
+    var chords = line.split(" ");
+    if(chords.length == 2) {
+        chords = [chords[0], "/", chords[1]];
+    }
+    return chords.join(" ");
+}
+function play_song(unwarbled) {
+    var previous = "";
+    unwarbled = unwarbled.replace(/T../, '?Groove Mambo\n')
+        .replace(/\{/g, "\n?Repeat\n").replace(/}/g, "\n?RepeatEnd\n")
+        .replace(/\*./g, "").replace(/N1/g, "\n?RepeatEnding\\2\n").replace("][", "")
+        .replace("[", "\n")
+        .replace(/N2/g, "").replace("Z", "").replace(/s/g, " ").replace(/,/g, " ")
+        .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "dim")
+        .replace(/\|/g, "\n").replace(/\]\[/g, "\n").replace(/\[/, "\n")
+        .replace(/l/g, "\n")
+    splitted = unwarbled.split("\n");
+    var previous = "";
+    k = 0;
+    for(var i = 0; i < splitted.length; i++) {
+        var line = splitted[i];
+        if(line.length == 0 || line[0] == '?') previous += line.replace(/\?/g, "")
+        else {
+            previous += "" + k + " " + line_to_mma_chords(line);
+            k += 1;
+        }
+        previous += "\n";
+    }
+    console.log(previous);
+}
 function show_song(title) {
     var song = localStorage[title];
     localStorage["last_song"] = song;
@@ -117,7 +148,9 @@ function show_song(title) {
     var title = splitted[0];
     var author = splitted[1];
     var unwarbled = unwarble(splitted[6]);
-    set_content("<h3>"+title+" ("+author+")</h3>" + get_sheet(unwarbled));
+    set_content("<b>"+title+" ("+author+")</b>"
+            + "<input type=button value='>' onclick=\"play_song('"+unwarbled+"')\"/><br/><br/>"
+            + get_sheet(unwarbled));
 }
 function show_songs_list(div) {
     div.innerHTML = "";

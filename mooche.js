@@ -83,7 +83,7 @@ function play_mma(mma) {
 }
 function play_song(unwarbled) {
     var previous = "";
-    unwarbled = unwarbled.replace(/T../, '?Groove Mambo\n')
+    unwarbled = unwarbled.replace(/T../, '?Groove Rumba\n')
         .replace(/\{/g, "\n?Repeat\n").replace(/}/g, "\n?RepeatEnd\n")
         .replace(/\*./g, "").replace(/N1/g, "\n?RepeatEnding\\2\n").replace("][", "")
         .replace("[", "\n")

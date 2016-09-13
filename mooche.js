@@ -70,7 +70,7 @@ function line_to_mma_chords(line) {
     return chords.join(" ");
 }
 function play_mma(mma) {
-  var worker = new Worker("//yazgoo.github.io/pypyjs-mma/worker.js")
+  var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/master/worker.js")
   worker.postMessage([mma]);
   console.log('Message posted to worker');
   worker.onmessage = function(e) {

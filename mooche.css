@@ -1,0 +1,43 @@
+body {
+    font-family: sans-serif;
+}
+span {
+    font-weight: bold;
+}
+.part_start {
+    height: 30px;
+    display: inline-block;
+    border-left: 2px solid black;
+    border-right: 2px solid black;
+}
+.sub_0 {
+    display: inline-block;
+    position: relative;
+    left: -13px;
+    top: -1px;
+}
+.sub_1 {
+    display: inline-block;
+    position: relative;
+    left: -20px;
+    top: 10px;
+}
+.part {
+    display: inline-block;
+    background-color: black;
+    color: white;
+    position: relative;
+    top: -20px;
+}
+.bar {
+    display: inline-block;
+    width: 23%;
+    border-right: 2px solid black;
+    font-size: 100px;
+    padding: 5px;
+    height: 30px;
+}
+.bar_line {
+    margin-bottom: 20px;
+}
+

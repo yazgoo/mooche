@@ -90,7 +90,7 @@ function play_song(unwarbled) {
         .replace(/N2/g, "").replace("Z", "").replace(/s/g, " ").replace(/,/g, " ")
         .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "dim")
         .replace(/\|/g, "\n").replace(/\]\[/g, "\n").replace(/\[/, "\n")
-        .replace(/l/g, "\n")
+        .replace(/l/g, "\n").replace(/x/g, "")
     splitted = unwarbled.split("\n");
     var previous = "";
     k = 0;
@@ -117,12 +117,24 @@ function show_song(title) {
             + "<input type=button value='>' onclick=\"play_song('"+unwarbled+"')\"/><br/><br/>"
             + get_sheet(unwarbled));
 }
-function show_songs_list(div) {
-    div.innerHTML = "";
-    for(var i = 0; i < 100;/*localStorage.length*/ i++) {
+var songs_list_written;
+var songs_list_div;
+function add_songs_list() {
+  var i;
+  s = ""
+    for(i = songs_list_written; i < (songs_list_written + 100) && i < localStorage.length; i++) {
         var title = localStorage.key(i);
-        div.innerHTML += "<a onclick=\"show_song('"+title+"')\">" + title  + "</a><br/>";
+        s += "<a onclick=\"show_song('"+title+"')\">" + title  + "</a><br/>";
     }
+  songs_list_div.innerHTML += s;
+    songs_list_written += 100;
+    if(i < localStorage.length) setTimeout(add_songs_list(), 500);
+}
+function show_songs_list(div) {
+    songs_list_div = div;
+    div.innerHTML = "";
+    songs_list_written = 0;
+    add_songs_list();
 }
 function set_content(str) {
     var content = document.getElementById("content");

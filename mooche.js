@@ -71,7 +71,7 @@ function line_to_mma_chords(line) {
 }
 var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/master/worker.js");
 // preload mma by running it once with an empty file
-worker.postMessage([""]);
+worker.postMessage(["Groove Swing\n0 A7"]);
 worker.onmessage = function(e) {
   console.log('Message received from worker');
   console.log(btoa(e.data));

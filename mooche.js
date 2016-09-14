@@ -90,7 +90,7 @@ function play_song(unwarbled) {
         .replace(/\*./g, "").replace(/N1/g, "\n?RepeatEnding\\2\n").replace("][", "")
         .replace("[", "\n")
         .replace(/N2/g, "").replace("Z", "").replace(/s/g, " ").replace(/,/g, " ")
-        .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "ø").replace(/o/g, "°").replace(/alt/g, "m")/*temporary alt replacement*/
+        .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "ø")/*.replace(/o/g, "°")*/.replace(/alt/g, "m")/*temporary alt replacement*/
         .replace(/\|/g, "\n").replace(/\]\[/g, "\n").replace(/\[/, "\n")
         .replace(/l/g, "\n").replace(/x/g, "").replace(/\([^\)]*\)/g, "")/* lets ignore stuff under () for now*/
     splitted = unwarbled.split("\n");

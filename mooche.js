@@ -90,7 +90,7 @@ function play_song(unwarbled) {
         .replace(/N2/g, "").replace("Z", "").replace(/s/g, " ").replace(/,/g, " ")
         .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "dim")
         .replace(/\|/g, "\n").replace(/\]\[/g, "\n").replace(/\[/, "\n")
-        .replace(/l/g, "\n").replace(/x/g, "").replace("/\([^\)]*\)/, "")
+        .replace(/l/g, "\n").replace(/x/g, "").replace(/\([^\)]*\)/g, "")/* lets ignore stuff under () for now*/
     splitted = unwarbled.split("\n");
     var previous = "";
     k = 0;

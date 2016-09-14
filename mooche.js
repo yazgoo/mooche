@@ -69,14 +69,14 @@ function line_to_mma_chords(line) {
     }
     return chords.join(" ");
 }
-var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/master/worker.js");
+var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/b2fb2cb703ba74893caa954f3ba929e341a5cc7e/worker.js");
 // preload mma by running it once with an empty file
 worker.postMessage(["Groove Swing\n0 A7"]);
 worker.onmessage = function(e) {
   console.log('Message received from worker');
   console.log(btoa(e.data));
-  data = e.data
-    console.log("playing " + data);
+  var data = e.data;
+  console.log("playing " + data);
   play(data);
 }
 function play_mma(mma) {

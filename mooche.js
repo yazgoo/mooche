@@ -69,7 +69,7 @@ function line_to_mma_chords(line) {
     }
     return chords.join(" ");
 }
-var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/b2fb2cb703ba74893caa954f3ba929e341a5cc7e/worker.js");
+var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/25edf7359913691af75129e0f0ab05f264fdf20c/worker.js");
 // preload mma by running it once with an empty file
 worker.postMessage(["Groove Swing\n0 A7"]);
 worker.onmessage = function(e) {

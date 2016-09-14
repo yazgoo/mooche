@@ -69,7 +69,9 @@ function line_to_mma_chords(line) {
     }
     return chords.join(" ");
 }
-var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/master/worker.js")
+var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/master/worker.js");
+// preload mma by running it once with an empty file
+worker.postMessage([""]);
 function play_mma(mma) {
   worker.postMessage([mma]);
   console.log('Message posted to worker');

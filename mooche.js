@@ -115,7 +115,7 @@ function show_song(title) {
     var title = splitted[0];
     var author = splitted[1];
     var unwarbled = unwarble(splitted[6]);
-    set_content("<b>"+title+" ("+author+")</b>"
+    set_content("<h4>"+title+" ("+author+")</h4>"
             + "<input type=button value='>' onclick=\"play_song('"+unwarbled+"')\"/><br/><br/>"
             + get_sheet(unwarbled));
 }
@@ -153,10 +153,7 @@ function show_about() {
             +'<li>Freedom 1: The freedom to <b>study</b> how the program works, and change it to make it do what you wish.</li>'
             +'<li>Freedom 2: The freedom to <b>redistribute</b> and make copies so you can help your neighbor.</li>'
             +'<li>Freedom 3: The freedom to <b>improve</b> the program, and release your improvements (and modified versions in general) to the public, so that the whole community benefits.</li>'
-            +'</ul>'
-            +'<iframe width="560" height="315" src="'
-            +'https://www.youtube.com/embed/CDVZdZMCc0w"'
-            +' frameborder="0" allowfullscreen></iframe>')
+            +'</ul>')
 }
 function show_songs() {
     show_songs_list(document.getElementById('content'));

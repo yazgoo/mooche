@@ -41,10 +41,10 @@ span {
     margin-bottom: 20px;
 }
 .tabs {
-  height: 70px;
   width: 100%;
   background-color: #00bbbb;
   text-align: center;
+  padding: 10px;
 }
 .tab {
   cursor: default;
@@ -63,4 +63,12 @@ span {
 .song:hover {
   background-color: #00aaaa;
   color: #eeffff;
+}
+#content {
+  padding: 5px;
+  border: 5px solid #00bbbb;
+}
+#midi_player {
+  width: 100%;
+  background-color: #00bbbb;
 }

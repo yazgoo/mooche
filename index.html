@@ -10,10 +10,10 @@
     <script src="//yazgoo.github.io/wild-web-midi/midi-player.js"></script>
     <script src="//yazgoo.github.io/wild-web-midi/web_audio_player.js"></script>
     <script async type="text/javascript" src="//yazgoo.github.io/wild-web-midi/wildwebmidi.js"></script>
-    <div>
-        <input type="button" onclick="show_imports()" value="imports"/>
-        <input type="button"  onclick="show_songs()" value="songs"/>
-        <input type="button"  onclick="show_about()" value="about"/>
+    <div class="tabs">
+      <div class=tab onclick="show_imports()">imports</div>
+      <div class=tab onclick="show_songs()">songs</div>
+      <div class=tab onclick="show_about()">about</div>
     </div>
     <div id="content">
     </div>

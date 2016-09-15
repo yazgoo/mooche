@@ -126,7 +126,7 @@ function add_songs_list() {
   s = ""
     for(i = songs_list_written; i < (songs_list_written + 100) && i < localStorage.length; i++) {
         var title = localStorage.key(i);
-        s += "<a onclick=\"show_song('"+title+"')\">" + title  + "</a><br/>";
+        s += "<div class='song' onclick=\"show_song('"+title+"')\">" + title  + "</div>";
     }
   songs_list_div.innerHTML += s;
     songs_list_written += 100;

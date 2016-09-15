@@ -40,4 +40,27 @@ span {
 .bar_line {
     margin-bottom: 20px;
 }
-
+.tabs {
+  height: 70px;
+  width: 100%;
+  background-color: #00bbbb;
+  text-align: center;
+}
+.tab {
+  cursor: default;
+  width: 30%;
+  font-size: 50px;
+  display: inline-block;
+  color: white;
+}
+.song {
+  cursor: default;
+  color: #00aaaa;
+  background-color: #eeffff;
+  width: 100%;
+  padding: 10px;
+}
+.song:hover {
+  background-color: #00aaaa;
+  color: #eeffff;
+}

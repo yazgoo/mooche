@@ -10,6 +10,16 @@ span {
     border-left: 2px solid black;
     border-right: 2px solid black;
 }
+.part_start_repeat {
+    height: 30px;
+    display: inline-block;
+    border-left: 2px solid black;
+    border-radius: 5px;
+    border-right: 0;
+}
+.part_start_repeat::after {
+   content: ":";
+}
 .sub_0 {
     display: inline-block;
     position: relative;

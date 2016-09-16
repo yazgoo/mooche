@@ -31,8 +31,10 @@ function unwarble(warbled) {
     return unwarbled.replace(/XyQ/g, "   ").replace(/Kcl/g, "| x").replace(/LZ/g, "|");
 }
 function get_sheet(unwarbled) {
+  console.log(unwarbled)
     unwarbled = unwarbled.replace(/\*([ABC])/g, "<span class='part'>$1</span>");
     unwarbled = unwarbled.replace(/\[/g, "<span class='part_start'>&nbsp;</span>");
+    unwarbled = unwarbled.replace(/\{/g, "<span class='part_start_repeat'>&nbsp;</span>");
     unwarbled = unwarbled.replace(/T(.)(.)/g, "<span class='sub_0'>$1</span><span class='sub_1'>$1</span>");
     unwarbled = unwarbled.replace(/\^/g, "&#916;");
     var splitted = unwarbled.split('');
@@ -46,14 +48,13 @@ function get_sheet(unwarbled) {
         var c = splitted[i];
         var add = "";
         if(c == "|") {
-            c = close_span;
-            bars += 1;
-            if(bars < 4)
-            {
-                c += open_span
-            }
-        }
-        else { if(c == "x") { c = "%"; } }
+          c = close_span;
+          bars += 1;
+          if(bars < 4)
+          {
+            c += open_span
+          }
+        } else { if(c == "x") { c = "%"; } }
         if(bars == 4 || c == '}' || c == ']') {
             bars = 0;
             add = close_div + open_div + open_span;
@@ -69,7 +70,7 @@ function line_to_mma_chords(line) {
     }
     return chords.join(" ");
 }
-var worker = new Worker("//rawgit.com/yazgoo/pypyjs-mma/2b1812909fed7ea84e3f78005813b170d87dc176/worker.js");
+var worker = new Worker("/pypyjs-mma/2b1812909fed7ea84e3f78005813b170d87dc176/worker.js");
 // preload mma by running it once with an empty file
 worker.postMessage(["Groove Swing\n0 A7"]);
 worker.onmessage = function(e) {

@@ -26,11 +26,7 @@ function mirror_swap(str, start, size) {
 function unwarble(warbled) {
     var unwarbled = warbled.replace('1r34LbKcu7', '');
     for(var i = 0; i + 51 < unwarbled.length; i += 50) {
-        unwarbled = mirror_swap(mirror_swap(mirror_swap(unwarbled, i + 10, 29), i + 5, 39), i, 49)
-    }
-    return unwarbled.replace(/XyQ/g, "   ").replace(/Kcl/g, "| x").replace(/LZ/g, "|");
-}
-function get_sheet(unwarbled) {
+        unwarbled = mirror_swap(mirror_swap(mirror_swap(unwarbled, i + 10, 29), i + 5, 39), i, 49) } return unwarbled.replace(/XyQ/g, "   ").replace(/Kcl/g, "| x").replace(/LZ/g, "|"); } function get_sheet(unwarbled) {
   console.log(unwarbled)
     unwarbled = unwarbled.replace(/\*([ABC])/g, "<span class='part'>$1</span>");
     unwarbled = unwarbled.replace(/\[/g, "<span class='part_start'>&nbsp;</span>");
@@ -70,28 +66,34 @@ function line_to_mma_chords(line) {
     }
     return chords.join(" ");
 }
-var worker = new Worker("/pypyjs-mma/2b1812909fed7ea84e3f78005813b170d87dc176/worker.js");
+var worker = new Worker("/pypyjs-mma/c8ad0bb585c423abea063c3aee4c85d62e8a8692/worker.js");
 // preload mma by running it once with an empty file
 worker.postMessage(["Groove Swing\n0 A7"]);
 worker.onmessage = function(e) {
   console.log('Message received from worker');
   console.log(btoa(e.data));
   var data = e.data;
-  console.log("playing " + data);
-  play(data);
+  if(data == undefined) {
+    console.log("MMA failed");
+
+  }
+  else {
+    console.log("playing " + data);
+    play(data);
+  }
 }
 function play_mma(mma) {
   worker.postMessage([mma]);
   console.log('Message posted to worker');
 }
-function play_song(unwarbled) {
-    var previous = "";
-    unwarbled = unwarbled.replace(/T../, '?Groove Swing\n')
+function to_mma(unwarbled) {
+    unwarbled = "?Groove Swing\n" + unwarbled.replace(/T../, '')/* todo actually use this tempo stuff */
         .replace(/\{/g, "\n?Repeat\n").replace(/}/g, "\n?RepeatEnd\n")
         .replace(/\*./g, "").replace(/N1/g, "\n?RepeatEnding\\2\n").replace("][", "")
+        .replace(/<.*>/, "")
         .replace("[", "\n")
         .replace(/N2/g, "").replace("Z", "").replace(/s/g, " ").replace(/,/g, " ")
-        .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "ø")/*.replace(/o/g, "°")*/.replace(/alt/g, "m")/*temporary alt replacement*/
+        .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "")/*.replace(/o/g, "°")*/.replace(/alt/g, "m")/*temporary alt replacement*/
         .replace(/\|/g, "\n").replace(/\]\[/g, "\n").replace(/\[/, "\n")
         .replace(/l/g, "\n").replace(/x/g, "").replace(/\([^\)]*\)/g, "")/* lets ignore stuff under () for now*/
     splitted = unwarbled.split("\n");
@@ -107,7 +109,11 @@ function play_song(unwarbled) {
         previous += "\n";
     }
     console.log(previous);
-    play_mma(previous);
+    return previous
+}
+function play_song(unwarbled) {
+  var previous = to_mma(unwarbled)
+  play_mma(previous);
 }
 function show_song(title) {
     var song = localStorage[title];

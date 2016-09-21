@@ -47,6 +47,15 @@ span {
     padding: 5px;
     height: 30px;
 }
+.second_bar {
+    display: inline-block;
+    width: 3px;
+    border-right: 2px solid black;
+    font-size: 100px;
+    height: 30px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
 .bar_line {
     margin-bottom: 20px;
 }

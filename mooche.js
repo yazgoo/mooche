@@ -38,13 +38,15 @@ function unwarble(warbled) {
     var close_div = "</div>";
     var open_span = "<span class='bar'>";
     var close_span = "</span>";
+    var second_bar = "<span class='second_bar'>&nbsp;</span>"
+    var double_close_span = close_span + second_bar;
     var out = open_div + open_span;
     var bars = 0;
     for(i = 0; i < splitted.length; i++) {
         var c = splitted[i];
         var add = "";
         if(c == "|") {
-          c = close_span;
+            c = close_span;
           bars += 1;
           if(bars < 4)
           {
@@ -53,6 +55,13 @@ function unwarble(warbled) {
         } else { if(c == "x") { c = "%"; } }
         if(bars == 4 || c == '}' || c == ']') {
             bars = 0;
+            if(c == "]") {
+                c = double_close_span;
+            }
+            else {
+              c = ""
+            }
+            addup = ""
             add = close_div + open_div + open_span;
         }
         out += c + add;

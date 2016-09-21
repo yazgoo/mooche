@@ -97,12 +97,13 @@ function play_mma(mma) {
 }
 function to_mma(unwarbled) {
     unwarbled = "?Groove Swing\n" + unwarbled.replace(/T../, '')/* todo actually use this tempo stuff */
-        .replace(/\{/g, "\n?Repeat\n").replace(/}/g, "\n?RepeatEnd\n")
-        .replace(/\*./g, "").replace(/N1/g, "\n?RepeatEnding\\2\n").replace("][", "")
+        .replace(/\{/g, "\n?Repeat\n").replace(/} +/, "\n?RepeatEnding\n")
+        .replace(/}/g, "\n?RepeatEnd\n")
+        .replace(/\*./g, "").replace(/N1/g, "\n?RepeatEnding\n").replace(/\]\[/g, "?RepeatEnd\n")
         .replace(/<.*>/, "")
         .replace("[", "\n")
-        .replace(/N2/g, "").replace("Z", "").replace(/s/g, " ").replace(/,/g, " ")
-        .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "")/*.replace(/o/g, "°")*/.replace(/alt/g, "m")/*temporary alt replacement*/
+        .replace(/N2/g, "\n?RepeatEnding\n").replace("Z", "").replace(/s/g, " ").replace(/,/g, " ")
+        .replace(/-/g, "m").replace(/\^/g, "M").replace(/h/g, "").replace(/o7/g, "m7b5").replace(/alt/g, "#5b7b9b13")/*temporary alt replacement*/
         .replace(/\|/g, "\n").replace(/\]\[/g, "\n").replace(/\[/, "\n")
         .replace(/l/g, "\n").replace(/x/g, "").replace(/\([^\)]*\)/g, "")/* lets ignore stuff under () for now*/
     splitted = unwarbled.split("\n");

@@ -2,16 +2,19 @@
 <html>
   <head>
     <title>Mooche</title>
+    <meta charset="utf-8"/>
     <link rel="stylesheet" type="text/css" href="mooche.css" />
     <link rel="stylesheet" type="text/css" href="/yazgoo/wild-web-midi/bbb7e5e188005b3785bc685564e735d5f528d670/midi-player.css" />
   </head>
 <body style="margin:0;padding:0;">
-    <script src="mooche.js"></script>
     <div class="tabs">
       <div class=tab onclick="show_imports()">imports</div>
       <div class=tab onclick="show_songs()">songs</div>
       <div class=tab onclick="show_about()">about</div>
+      <div class=tab id=mooche_status></div>
     </div>
+    <script src="parser.js"></script>
+    <script src="mooche.js"></script>
     <div id="content">
     </div>
     <div id=midi_player></div>

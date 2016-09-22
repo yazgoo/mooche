@@ -1,14 +1,26 @@
+function mooche_status(text) {
+  console.log(text);
+  var current = document.getElementById("mooche_status").innerHTML;
+  current = current.split("<br>");
+  current = [text].concat(current);
+  console.log(current)
+  var text = "";
+  for(var i = 0; i < 5 && i < current.length; i++) {
+    text += current[i] + "<br>"
+  }
+  document.getElementById("mooche_status").innerHTML = text;
+}
+var songLoader = new Worker("song_loader.js");
+// preload mma by running it once with an empty file
+songLoader.onmessage = function(e) {
+  song = e.data.split("=");
+  title = song[0];
+  author = song[1];
+  localStorage[title + " (" + author + ")"] = e.data;
+}
 function load_songs(textarea) {
-    var encoded_uri = textarea.value;
-    var decoded = decodeURIComponent(encoded_uri);
-    var without_protocol = decoded.replace("irealb://", "");
-    var unsplitted = without_protocol.split("==0=0===");
-    for(i in unsplitted) {
-        song = unsplitted[i].split("=");
-        title = song[0];
-        author = song[1];
-        localStorage[title + " (" + author + ")"] = unsplitted[i]
-    }
+  mooche_status("loading songs...")
+  songLoader.postMessage(textarea.value);
 }
 function swap(splitted, i, j) {
     tmp = splitted[i];
@@ -78,16 +90,18 @@ function line_to_mma_chords(line) {
 var worker = new Worker("/yazgoo/pypyjs-mma/c8ad0bb585c423abea063c3aee4c85d62e8a8692/worker.js");
 // preload mma by running it once with an empty file
 worker.postMessage(["Groove Swing\n0 A7"]);
+mooche_status("loading MMA...")
 worker.onmessage = function(e) {
   console.log('Message received from worker');
   console.log(btoa(e.data));
   var data = e.data;
+  mooche_status("loading MMA done")
   if(data == undefined) {
-    console.log("MMA failed");
-
+    mooche_status("MMA conversion failed");
   }
   else {
     console.log("playing " + data);
+    mooche_status("playing song...");
     play(data);
   }
 }
@@ -121,8 +135,11 @@ function to_mma(unwarbled) {
     console.log(previous);
     return previous
 }
+function to_mma_opal(unwarbled) {
+  return Opal.MMAParser.$new(unwarbled).$run();
+}
 function play_song(unwarbled) {
-  var previous = to_mma(unwarbled)
+  var previous = to_mma_opal(unwarbled)
   play_mma(previous);
 }
 function show_song(title) {
@@ -146,10 +163,12 @@ function add_songs_list() {
         s += "<div class='song' onclick=\"show_song('"+title+"')\">" + title  + "</div>";
     }
   songs_list_div.innerHTML += s;
-    songs_list_written += 100;
-    if(i < localStorage.length) setTimeout(add_songs_list(), 500);
+  songs_list_written += 100;
+  if(i < localStorage.length) setTimeout(add_songs_list(), 500);
+  else mooche_status("showing songs done...");
 }
 function show_songs_list(div) {
+    mooche_status("showing songs...");
     songs_list_div = div;
     div.innerHTML = "";
     songs_list_written = 0;
@@ -159,8 +178,14 @@ function set_content(str) {
     var content = document.getElementById("content");
     content.innerHTML = str;
 }
+function clear_songs() {
+  mooche_status("clearing localStorage")
+  localStorage.clear();
+}
 function show_imports() {
-    set_content("<input type=text onchange='load_songs(this)'/>");
+    set_content("<input type=text onchange='load_songs(this)'/>"
+        + "<input type=button onclick='clear_songs()' value='clear songs'/><br/>"
+        + "<iframe class=mooche_forums src='http://www.irealb.com/forums/'></frame>");
 }
 function show_about() {
     set_content('Mooche is <b>free</b> software (as in freedom).<br/>'

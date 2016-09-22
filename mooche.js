@@ -10,6 +10,7 @@ function mooche_status(text) {
   }
   document.getElementById("mooche_status").innerHTML = text;
 }
+setInterval(function(){ mooche_status(""); }, 5000);
 var songLoader = new Worker("song_loader.js");
 // preload mma by running it once with an empty file
 songLoader.onmessage = function(e) {
@@ -142,49 +143,100 @@ function play_song(unwarbled) {
   var previous = to_mma_opal(unwarbled)
   play_mma(previous);
 }
-function show_song(title) {
-    var song = localStorage[title];
-    localStorage["last_song"] = song;
+function get_song(songname, f, error_handler) {
+  var openRequest = indexedDB.open("mooche",2);
+  openRequest.onupgradeneeded = function(e) {
+    var thisDB = e.target.result;
+    if(!thisDB.objectStoreNames.contains("songs")) {
+      thisDB.createObjectStore("songs", {keyPath: "key"});
+    }
+  }
+  openRequest.onsuccess = function(e) {
+    db = e.target.result;
+    var transaction = db.transaction(["songs"], "readonly");
+    var objectStore = transaction.objectStore("songs");
+    var request = objectStore.get(songname);
+    request.onsuccess = function(e) {
+      f(e.target.result.content);
+    }
+    request.onerror = function(e) {
+      error_handler(e);
+    }
+  }
+  openRequest.onerror = function(e) {
+    error_handler(e);
+  }
+}
+function save_song(songname, song) {
+  var openRequest = indexedDB.open("mooche",2);
+  openRequest.onupgradeneeded = function(e) {
+    var thisDB = e.target.result;
+    if(!thisDB.objectStoreNames.contains("songs")) {
+      thisDB.createObjectStore("songs", {keyPath: "key"});
+    }
+  }
+	openRequest.onsuccess = function(e) {
+    db = e.target.result;
+		var transaction = db.transaction(["songs"],"readwrite");
+		var store = transaction.objectStore("songs");
+    store.add({key: songname, content: song})
+  }
+}
+function show_song(songname, error_handler) {
+  get_song(songname, function(song) {
+    save_song("last_song", song)
     var splitted = song.split("=");
     var title = splitted[0];
     var author = splitted[1];
     var unwarbled = unwarble(splitted[6]);
     set_content("<h4>"+title+" ("+author+")</h4>"
-            + "<input type=button value='>' onclick=\"play_song('"+unwarbled+"')\"/><br/><br/>"
-            + get_sheet(unwarbled));
+        + "<input type=button value='>' onclick=\"play_song('"+unwarbled+"')\"/><br/><br/>"
+        + get_sheet(unwarbled));
+  }, error_handler);
 }
 var songs_list_written;
 var songs_list_div;
-function add_songs_list() {
-  var i;
-  s = ""
-    for(i = songs_list_written; i < (songs_list_written + 100) && i < localStorage.length; i++) {
-        var title = localStorage.key(i);
-        s += "<div class='song' onclick=\"show_song('"+title+"')\">" + title  + "</div>";
-    }
-  songs_list_div.innerHTML += s;
-  songs_list_written += 100;
-  if(i < localStorage.length) setTimeout(add_songs_list(), 500);
-  else mooche_status("showing songs done...");
-}
 function show_songs_list(div) {
-    mooche_status("showing songs...");
-    songs_list_div = div;
-    div.innerHTML = "";
-    songs_list_written = 0;
-    add_songs_list();
+  songs_list_div = div;
+  mooche_status("showing songs...");
+  var openRequest = indexedDB.open("mooche",2);
+  openRequest.onupgradeneeded = function(e) {
+    var thisDB = e.target.result;
+    if(!thisDB.objectStoreNames.contains("songs")) {
+      thisDB.createObjectStore("songs", {keyPath: "key"});
+    }
+  }
+  openRequest.onsuccess = function(e) {
+    db = e.target.result;
+    var transaction = db.transaction(["songs"],"readonly");
+    var store = transaction.objectStore("songs");
+    var cursor = store.openCursor();
+    var s = ""
+    var i = 0;
+    songs_list_div.innerHTML = ""
+    cursor.onsuccess = function(e) {
+      var res = e.target.result;
+      if(res) {
+        s += "<div class='song' onclick=\"show_song('"+res.key+"')\">" + res.key  + "</div>";
+        i += 1;
+        if(i > 100) {
+          songs_list_div.innerHTML += s;
+          s = "";
+          i = 0;
+        }
+        res.continue();
+      } else {
+          songs_list_div.innerHTML += s;
+      }
+    }
+  }
 }
 function set_content(str) {
     var content = document.getElementById("content");
     content.innerHTML = str;
 }
-function clear_songs() {
-  mooche_status("clearing localStorage")
-  localStorage.clear();
-}
 function show_imports() {
-    set_content("<input type=text onchange='load_songs(this)'/>"
-        + "<input type=button onclick='clear_songs()' value='clear songs'/><br/>"
+    set_content("<input type=text class=import onchange='load_songs(this)'/>"
         + "<iframe class=mooche_forums src='http://www.irealb.com/forums/'></frame>");
 }
 function show_about() {
@@ -201,11 +253,6 @@ function show_songs() {
     show_songs_list(document.getElementById('content'));
 }
 function show_songs_or_last_song() {
-    if(localStorage["last_song"] != null) {
-        show_song("last_song");
-    }
-    else {
-        show_songs();
-    }
+  show_song("last_song", show_songs);
 }
 

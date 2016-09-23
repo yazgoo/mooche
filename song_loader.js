@@ -21,5 +21,6 @@ onmessage = function(e) {
       author = song[1];
       store.add({key: title + " (" + author + ")", content: unsplitted[i]})
     }
+    postMessage("done");
   }
 }

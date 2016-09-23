@@ -14,10 +14,7 @@ setInterval(function(){ mooche_status(""); }, 5000);
 var songLoader = new Worker("song_loader.js");
 // preload mma by running it once with an empty file
 songLoader.onmessage = function(e) {
-  song = e.data.split("=");
-  title = song[0];
-  author = song[1];
-  localStorage[title + " (" + author + ")"] = e.data;
+  mooche_status("songs loaded")
 }
 function load_songs(textarea) {
   mooche_status("loading songs...")

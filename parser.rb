@@ -18,6 +18,10 @@ class Parser
           end
         end
         @parsed << [:repeat_end]
+      elsif c == "("
+        @parsed << [:parenthesis_open]
+      elsif c == ")"
+        @parsed << [:parenthesis_close]
       elsif c == "]"
         @parsed << [:part_end]
       elsif c == '|'
@@ -77,6 +81,17 @@ class MMAParser < Parser
     @bar_count = 0
     @first_chord_of_the_bar = true
     @in_repeat_part = false
+    @in_parenthesis = false
+  end
+  def empty
+    yield
+    ""
+  end
+  def parenthesis_open
+    empty { @in_parenthesis = true }
+  end
+  def parenthesis_close
+    empty { @in_parenthesis = false }
   end
   def repeat_start
     "Repeat\n"
@@ -113,7 +128,11 @@ class MMAParser < Parser
     str
   end
   def chord c
-    add_up_bar_count + c.gsub("-", "m").gsub("^", "M").gsub("o7", "mb5").gsub("o", "mb5")
+    if @in_parenthesis
+      empty {}
+    else
+      add_up_bar_count + c.gsub("-", "m").gsub("^", "M").gsub("o7", "mb5").gsub("o", "mb5")
+    end
   end
   def space 
     add_up_bar_count + " / "

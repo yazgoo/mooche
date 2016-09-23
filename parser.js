@@ -19544,7 +19544,7 @@ Opal.modules["corelib/unsupported"] = function(Opal) {
   }
   var self = Opal.top, $scope = Opal, nil = Opal.nil, $breaker = Opal.breaker, $slice = Opal.slice, $klass = Opal.klass, $range = Opal.range;
 
-  Opal.add_stubs(['$map', '$chr', '$to_a', '$upto', '$ord', '$+', '$<', '$size', '$[]', '$==', '$<<', '$include?', '$!=', '$-', '$!', '$run_start', '$each', '$respond_to?', '$send', '$add_up_bar_count', '$gsub']);
+  Opal.add_stubs(['$map', '$chr', '$to_a', '$upto', '$ord', '$+', '$<', '$size', '$[]', '$==', '$<<', '$include?', '$!=', '$-', '$!', '$run_start', '$each', '$respond_to?', '$send', '$empty', '$add_up_bar_count', '$gsub']);
   (function($base, $super) {
     function $Parser(){};
     var self = $Parser = $klass($base, $super, 'Parser', $Parser);
@@ -19573,6 +19573,10 @@ if (x == null) x = nil;
         if ((($d = c['$!='](" ")) !== nil && $d != null && (!$d.$$is_boolean || $d == true))) {
           i = $rb_minus(i, 1)};};
         self.parsed['$<<'](["repeat_end"]);
+      } else if (c['$==']("(")) {
+        self.parsed['$<<'](["parenthesis_open"])
+      } else if (c['$=='](")")) {
+        self.parsed['$<<'](["parenthesis_close"])
       } else if (c['$==']("]")) {
         self.parsed['$<<'](["part_end"])
       } else if (c['$==']("|")) {
@@ -19637,37 +19641,62 @@ if (item == null) item = nil;
     function $MMAParser(){};
     var self = $MMAParser = $klass($base, $super, 'MMAParser', $MMAParser);
 
-    var def = self.$$proto, $scope = self.$$scope, TMP_5, TMP_6, TMP_7, TMP_8, TMP_9, TMP_10, TMP_11, TMP_12, TMP_13, TMP_14, TMP_15;
+    var def = self.$$proto, $scope = self.$$scope, TMP_5, TMP_6, TMP_8, TMP_10, TMP_11, TMP_12, TMP_13, TMP_14, TMP_15, TMP_16, TMP_18, TMP_19, TMP_20, TMP_21;
 
-    def.in_repeat_part = def.first_chord_of_the_bar = def.bar_count = nil;
+    def.in_repeat_part = def.first_chord_of_the_bar = def.bar_count = def.in_parenthesis = nil;
     Opal.defn(self, '$run_start', TMP_5 = function ːrun_start() {
       var self = this;
 
       self.bar_count = 0;
       self.first_chord_of_the_bar = true;
-      return self.in_repeat_part = false;
+      self.in_repeat_part = false;
+      return self.in_parenthesis = false;
     }, TMP_5.$$arity = 0);
 
-    Opal.defn(self, '$repeat_start', TMP_6 = function ːrepeat_start() {
+    Opal.defn(self, '$empty', TMP_6 = function ːempty() {
+      var self = this, $iter = TMP_6.$$p, $yield = $iter || nil;
+
+      TMP_6.$$p = null;
+      Opal.yieldX($yield, []);
+      return "";
+    }, TMP_6.$$arity = 0);
+
+    Opal.defn(self, '$parenthesis_open', TMP_8 = function ːparenthesis_open() {
+      var $a, $b, TMP_7, self = this;
+
+      return ($a = ($b = self).$empty, $a.$$p = (TMP_7 = function(){var self = TMP_7.$$s || this;
+
+      return self.in_parenthesis = true}, TMP_7.$$s = self, TMP_7.$$arity = 0, TMP_7), $a).call($b);
+    }, TMP_8.$$arity = 0);
+
+    Opal.defn(self, '$parenthesis_close', TMP_10 = function ːparenthesis_close() {
+      var $a, $b, TMP_9, self = this;
+
+      return ($a = ($b = self).$empty, $a.$$p = (TMP_9 = function(){var self = TMP_9.$$s || this;
+
+      return self.in_parenthesis = false}, TMP_9.$$s = self, TMP_9.$$arity = 0, TMP_9), $a).call($b);
+    }, TMP_10.$$arity = 0);
+
+    Opal.defn(self, '$repeat_start', TMP_11 = function ːrepeat_start() {
       var self = this;
 
       return "Repeat\n";
-    }, TMP_6.$$arity = 0);
+    }, TMP_11.$$arity = 0);
 
-    Opal.defn(self, '$tempo', TMP_7 = function ːtempo(a, b) {
+    Opal.defn(self, '$tempo', TMP_12 = function ːtempo(a, b) {
       var self = this;
 
       return "Groove Swing";
-    }, TMP_7.$$arity = 2);
+    }, TMP_12.$$arity = 2);
 
-    Opal.defn(self, '$start_part_end', TMP_8 = function ːstart_part_end(n) {
+    Opal.defn(self, '$start_part_end', TMP_13 = function ːstart_part_end(n) {
       var self = this;
 
       self.in_repeat_part = true;
       return "\n";
-    }, TMP_8.$$arity = 1);
+    }, TMP_13.$$arity = 1);
 
-    Opal.defn(self, '$repeat_end', TMP_9 = function ːrepeat_end() {
+    Opal.defn(self, '$repeat_end', TMP_14 = function ːrepeat_end() {
       var $a, self = this;
 
       self.first_chord_of_the_bar = true;
@@ -19677,9 +19706,9 @@ if (item == null) item = nil;
         } else {
         return "\nRepeatEnd\n"
       };
-    }, TMP_9.$$arity = 0);
+    }, TMP_14.$$arity = 0);
 
-    Opal.defn(self, '$part_end', TMP_10 = function ːpart_end() {
+    Opal.defn(self, '$part_end', TMP_15 = function ːpart_end() {
       var $a, self = this;
 
       self.first_chord_of_the_bar = true;
@@ -19689,9 +19718,9 @@ if (item == null) item = nil;
         } else {
         return ""
       };
-    }, TMP_10.$$arity = 0);
+    }, TMP_15.$$arity = 0);
 
-    Opal.defn(self, '$add_up_bar_count', TMP_11 = function ːadd_up_bar_count() {
+    Opal.defn(self, '$add_up_bar_count', TMP_16 = function ːadd_up_bar_count() {
       var $a, self = this, str = nil;
 
       str = "";
@@ -19699,32 +19728,38 @@ if (item == null) item = nil;
         str = "\n" + (self.bar_count) + " "};
       self.first_chord_of_the_bar = false;
       return str;
-    }, TMP_11.$$arity = 0);
+    }, TMP_16.$$arity = 0);
 
-    Opal.defn(self, '$chord', TMP_12 = function ːchord(c) {
-      var self = this;
+    Opal.defn(self, '$chord', TMP_18 = function ːchord(c) {
+      var $a, $b, TMP_17, self = this;
 
-      return $rb_plus(self.$add_up_bar_count(), c.$gsub("-", "m").$gsub("^", "M").$gsub("o7", "mb5").$gsub("o", "mb5"));
-    }, TMP_12.$$arity = 1);
+      if ((($a = self.in_parenthesis) !== nil && $a != null && (!$a.$$is_boolean || $a == true))) {
+        return ($a = ($b = self).$empty, $a.$$p = (TMP_17 = function(){var self = TMP_17.$$s || this;
 
-    Opal.defn(self, '$space', TMP_13 = function ːspace() {
+        return nil}, TMP_17.$$s = self, TMP_17.$$arity = 0, TMP_17), $a).call($b)
+        } else {
+        return $rb_plus(self.$add_up_bar_count(), c.$gsub("-", "m").$gsub("^", "M").$gsub("o7", "mb5").$gsub("o", "mb5"))
+      };
+    }, TMP_18.$$arity = 1);
+
+    Opal.defn(self, '$space', TMP_19 = function ːspace() {
       var self = this;
 
       return $rb_plus(self.$add_up_bar_count(), " / ");
-    }, TMP_13.$$arity = 0);
+    }, TMP_19.$$arity = 0);
 
-    Opal.defn(self, '$coma', TMP_14 = function ːcoma() {
+    Opal.defn(self, '$coma', TMP_20 = function ːcoma() {
       var self = this;
 
       return " ";
-    }, TMP_14.$$arity = 0);
+    }, TMP_20.$$arity = 0);
 
-    return (Opal.defn(self, '$bar', TMP_15 = function ːbar() {
+    return (Opal.defn(self, '$bar', TMP_21 = function ːbar() {
       var self = this;
 
       self.first_chord_of_the_bar = true;
       self.bar_count = $rb_plus(self.bar_count, 1);
       return "\n";
-    }, TMP_15.$$arity = 0), nil) && 'bar';
+    }, TMP_21.$$arity = 0), nil) && 'bar';
   })($scope.base, $scope.get('Parser'));
 })(Opal);

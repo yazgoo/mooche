@@ -4,6 +4,9 @@ body {
 span {
     font-weight: bold;
 }
+.import {
+  width: 100%;
+}
 .part_start {
     height: 30px;
     display: inline-block;

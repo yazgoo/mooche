@@ -1,9 +1,8 @@
 function mooche_status(text) {
-  console.log(text);
+  console.log(text)
   var current = document.getElementById("mooche_status").innerHTML;
   current = current.split("<br>");
   current = [text].concat(current);
-  console.log(current)
   var text = "";
   for(var i = 0; i < 5 && i < current.length; i++) {
     text += current[i] + "<br>"
@@ -85,27 +84,27 @@ function line_to_mma_chords(line) {
     }
     return chords.join(" ");
 }
+var play_song_class_name = "play_song_not_ready";
 var worker = new Worker("/yazgoo/pypyjs-mma/c8ad0bb585c423abea063c3aee4c85d62e8a8692/worker.js");
 // preload mma by running it once with an empty file
 worker.postMessage(["Groove Swing\n0 A7"]);
 mooche_status("loading MMA...")
 worker.onmessage = function(e) {
-  console.log('Message received from worker');
-  console.log(btoa(e.data));
   var data = e.data;
   mooche_status("loading MMA done")
+  var play_song = document.getElementById("play_song");
+  if(play_song != null && play_song.className == "play_song_not_ready")
+    play_song.className = play_song_class_name = "play_song";
   if(data == undefined) {
     mooche_status("MMA conversion failed");
   }
   else {
-    console.log("playing " + data);
     mooche_status("playing song...");
     play(data);
   }
 }
 function play_mma(mma) {
   worker.postMessage([mma]);
-  console.log('Message posted to worker');
 }
 function to_mma(unwarbled) {
     unwarbled = "?Groove Swing\n" + unwarbled.replace(/T../, '')/* todo actually use this tempo stuff */
@@ -130,7 +129,6 @@ function to_mma(unwarbled) {
         }
         previous += "\n";
     }
-    console.log(previous);
     return previous
 }
 function to_mma_opal(unwarbled) {
@@ -184,10 +182,13 @@ function show_song(songname, error_handler) {
     save_song("last_song", song)
     var splitted = song.split("=");
     var title = splitted[0];
-    var author = splitted[1];
+    var author = splitted[1].split(" ").reverse().join(" ");
     var unwarbled = unwarble(splitted[6]);
-    set_content("<h4>"+title+" ("+author+")</h4>"
-        + "<input type=button value='>' onclick=\"play_song('"+unwarbled+"')\"/><br/><br/>"
+    set_content(
+        "<input type=button id=play_song class="+play_song_class_name
+        + " value='&#9654;' onclick=\"play_song('"+unwarbled+"')\"/>"
+				+ "<span class=song_title>"+title+"</span>"
+        + "<span class=song_author>"+author+"</span><br/><br/>"
         + get_sheet(unwarbled));
   }, error_handler);
 }
@@ -233,8 +234,10 @@ function set_content(str) {
     content.innerHTML = str;
 }
 function show_imports() {
-    set_content("<input type=text class=import onchange='load_songs(this)'/>"
-        + "<iframe class=mooche_forums src='http://www.irealb.com/forums/'></frame>");
+    set_content("<div class=imports_explanation>Right click and copy link location on song links below,"
+        + "then paste it in this text field below<div/>"
+        + "<textarea type=text class=import onchange='load_songs(this)'></textarea>"
+        + "<iframe class=mooche_forums src='http://www.irealb.com/forums/'></iframe>");
 }
 function show_about() {
     set_content('Mooche is <b>free</b> software (as in freedom).<br/>'

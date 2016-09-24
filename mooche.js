@@ -86,7 +86,7 @@ function line_to_mma_chords(line) {
     return chords.join(" ");
 }
 var play_song_class_name = "play_song_not_ready";
-var worker = new Worker("/yazgoo/pypyjs-mma-nojit/29e5bba60c48da982e587a6a798719568af68a6b/worker.js");
+var worker = new Worker("/yazgoo/mma.js/29e5bba60c48da982e587a6a798719568af68a6b/worker.js");
 // preload mma by running it once with an empty file
 worker.postMessage(["Groove Swing\n0 A7"]);
 mooche_status("loading MMA...")

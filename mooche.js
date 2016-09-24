@@ -1,3 +1,4 @@
+var t0 = performance.now();
 function mooche_status(text) {
   console.log(text)
   var current = document.getElementById("mooche_status").innerHTML;
@@ -85,7 +86,7 @@ function line_to_mma_chords(line) {
     return chords.join(" ");
 }
 var play_song_class_name = "play_song_not_ready";
-var worker = new Worker("/yazgoo/pypyjs-mma/c8ad0bb585c423abea063c3aee4c85d62e8a8692/worker.js");
+var worker = new Worker("/yazgoo/pypyjs-mma-nojit/29e5bba60c48da982e587a6a798719568af68a6b/worker.js");
 // preload mma by running it once with an empty file
 worker.postMessage(["Groove Swing\n0 A7"]);
 mooche_status("loading MMA...")
@@ -95,8 +96,12 @@ worker.onmessage = function(e) {
   var play_song = document.getElementById("play_song");
   play_song_class_name = "play_song";
   document.getElementById("stop").value = "■"
+  var t1 = performance.now();
+  console.log("playing a song took " + (t1 - t0) + " milliseconds.")
   if(play_song != null && play_song.className == "play_song_not_ready")
+  {
     play_song.className = play_song_class_name;
+  }
   if(data == undefined) {
     mooche_status("MMA conversion failed");
   }

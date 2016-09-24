@@ -150,6 +150,19 @@ span {
 	width: 50%;
 	margin: 0 auto; 
 }
+#stop {
+  display: inline-block;
+  width: 10%;
+  background-color: #00bbbb;
+  margin: 5px;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.7); 
+	border: none;
+	color: white;
+	padding: 15px 32px;
+	text-align: center;
+	text-decoration: none;
+	font-size: 26px;
+}
 body {
   background-color: #00bbbb;
 }

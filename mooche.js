@@ -93,8 +93,10 @@ worker.onmessage = function(e) {
   var data = e.data;
   mooche_status("loading MMA done")
   var play_song = document.getElementById("play_song");
+  play_song_class_name = "play_song";
+  document.getElementById("stop").value = "■"
   if(play_song != null && play_song.className == "play_song_not_ready")
-    play_song.className = play_song_class_name = "play_song";
+    play_song.className = play_song_class_name;
   if(data == undefined) {
     mooche_status("MMA conversion failed");
   }

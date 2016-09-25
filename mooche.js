@@ -244,7 +244,7 @@ function show_imports() {
     set_content("<div class=imports_explanation>Right click and copy link location on song links below,"
         + "then paste it in this text field below<div/>"
         + "<textarea type=text class=import onchange='load_songs(this)'></textarea>"
-        + "<iframe class=mooche_forums src='http://www.irealb.com/forums/'></iframe>");
+        + "<iframe sandbox='' class=mooche_forums src='http://www.irealb.com/forums/'></iframe>");
 }
 function show_about() {
     set_content('Mooche is <b>free</b> software (as in freedom).<br/>'
@@ -254,7 +254,8 @@ function show_about() {
             +'<li>Freedom 1: The freedom to <b>study</b> how the program works, and change it to make it do what you wish.</li>'
             +'<li>Freedom 2: The freedom to <b>redistribute</b> and make copies so you can help your neighbor.</li>'
             +'<li>Freedom 3: The freedom to <b>improve</b> the program, and release your improvements (and modified versions in general) to the public, so that the whole community benefits.</li>'
-            +'</ul>')
+            +'</ul>'
+            + "source available <a href=http://github.com/yazgoo/mooche>here</a>.")
 }
 function show_songs() {
     show_songs_list(document.getElementById('content'));

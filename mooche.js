@@ -10,6 +10,13 @@ function mooche_status(text) {
   }
   document.getElementById("mooche_status").innerHTML = text;
 }
+document.addEventListener("visibilitychange", function(event) {
+  if(document.hidden)
+  {
+    mooche_status("stopping because changing tab")
+    stop();
+  }
+})
 setInterval(function(){ mooche_status(""); }, 5000);
 var songLoader = new Worker("song_loader.js");
 // preload mma by running it once with an empty file
@@ -86,11 +93,11 @@ function line_to_mma_chords(line) {
     return chords.join(" ");
 }
 var play_song_class_name = "play_song_not_ready";
-var worker = new Worker("/yazgoo/mma.js/29e5bba60c48da982e587a6a798719568af68a6b/worker.js");
+var mmaWorker = new Worker("/yazgoo/mma.js/29e5bba60c48da982e587a6a798719568af68a6b/worker.js");
 // preload mma by running it once with an empty file
-worker.postMessage(["Groove Swing\n0 A7"]);
+mmaWorker.postMessage(["Groove Swing\n0 A7"]);
 mooche_status("loading MMA...")
-worker.onmessage = function(e) {
+mmaWorker.onmessage = function(e) {
   var data = e.data;
   mooche_status("loading MMA done")
   var play_song = document.getElementById("play_song");
@@ -111,7 +118,7 @@ worker.onmessage = function(e) {
   }
 }
 function play_mma(mma) {
-  worker.postMessage([mma]);
+  mmaWorker.postMessage([mma]);
 }
 function to_mma(unwarbled) {
     unwarbled = "?Groove Swing\n" + unwarbled.replace(/T../, '')/* todo actually use this tempo stuff */

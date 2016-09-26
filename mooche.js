@@ -181,7 +181,7 @@ function save_song(songname, song) {
     db = e.target.result;
 		var transaction = db.transaction(["songs"],"readwrite");
 		var store = transaction.objectStore("songs");
-    store.add({key: songname, content: song})
+    store.put({key: songname, content: song})
   }
 }
 function show_song(songname, error_handler) {

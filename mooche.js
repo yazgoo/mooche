@@ -247,11 +247,16 @@ function set_content(str) {
     var content = document.getElementById("content");
     content.innerHTML = str;
 }
+window.addEventListener("message", receiveMessage, false);
+function receiveMessage(event)
+{
+  mooche_status("loading songs...")
+  songLoader.postMessage(event.data);
+}
 function show_imports() {
-    set_content("<div class=imports_explanation>Right click and copy link location on song links below,"
-        + "then paste it in this text field below<div/>"
+    set_content("<div class=imports_explanation>Click on the song links bellow to load them<div/>"
         + "<textarea type=text class=import onchange='load_songs(this)'></textarea>"
-        + "<iframe sandbox='' class=mooche_forums src='http://www.irealb.com/forums/'></iframe>");
+        + "<iframe class=mooche_forums src='http://mooche-yazgoo.rhcloud.com'></iframe>");
 }
 function show_about() {
     set_content('Mooche is <b>free</b> software (as in freedom).<br/>'

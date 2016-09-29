@@ -46,6 +46,10 @@ def setup_cordova_project(destination, mooche_revision)
           "yazgoo/mooche/#{mooche_revision}/index.html"
         puts `cordova platform add browser`
         puts `cordova platform add android`
+        # TODO copy release-signing.properties to plaftorm/android
+        # TODO run cordova build android --release
+        # TODO add icon <icon src="www/yazgoo/mooche/892b882a74aa62cc6beeb7268d5ffad57267eef1/favicon.png" />
+        # TODO set verision in config.xml
       end
     end
 end

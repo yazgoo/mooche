@@ -199,10 +199,10 @@ function show_song(songname, error_handler) {
     var author = splitted[1].split(" ").reverse().join(" ");
     var unwarbled = unwarble(splitted[6]);
     set_content(
-        "<input type=button id=play_song class="+play_song_class_name
+        "<div><input type=button id=play_song class="+play_song_class_name
         + " value='&#9654;' onclick=\"play_song('"+unwarbled+"')\"/>"
 				+ "<span class=song_title>"+title+"</span>"
-        + "<span class=song_author>"+author+"</span><br/><br/>"
+        + "<span class=song_author>"+author+"</span></div><br/>"
         + get_sheet(unwarbled));
   }, error_handler);
 }

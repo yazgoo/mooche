@@ -45,17 +45,24 @@ def setup_cordova_project(destination, mooche_revision, version)
       Dir.chdir mooche_path do
         replace_in_file "#{mooche_path}/config.xml", "index.html", 
           "yazgoo/mooche/#{mooche_revision}/index.html"
-        puts `cordova platform add browser`
-        puts `cordova platform add android`
-        FileUtils.cp "#{ENV['HOME']}/.ssh/release-signing.properties #{mooche_path}/plaftorms/android/"
-        puts `run cordova build android --release`
         replace_in_file "#{mooche_path}/config.xml", "</widget>", 
-          '<icon src="www/yazgoo/mooche/' + mooche_revision + '/favicon.png" />'
+          '    <icon src="www/yazgoo/mooche/' + mooche_revision + '/favicon.png" />\n</widget>'
         replace_in_file "#{mooche_path}/config.xml", 'version="0.0.1"', 
           'version=""' + version + '"'
+        puts `cordova platform add android`
+        FileUtils.cp "#{ENV['HOME']}/.ssh/release-signing.properties", "#{mooche_path}/platforms/android/"
       end
     end
 end
 
-setup_cordova_project destination, mooche_revision
-install_source "#{destination}/mooche/www", mooche_revision, Mooche.Version
+def build_cordova(destination)
+    mooche_path = "#{destination}/mooche"
+    Dir.chdir mooche_path do
+        puts `cordova platform add browser`
+        puts `cordova build android --release`
+    end
+end
+
+setup_cordova_project destination, mooche_revision, Mooche.new.version
+install_source "#{destination}/mooche/www", mooche_revision
+build_cordova destination

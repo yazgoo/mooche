@@ -50,18 +50,17 @@ span {
     display: inline-block;
     width: 23%;
     border-right: 2px solid black;
+    padding-left: 1vw;
     font-size: 100px;
+    font-size: 3vw;
     line-height: 30px;
     height: 30px;
 }
 .second_bar {
     display: inline-block;
-    width: 3px;
     border-right: 2px solid black;
-    font-size: 100px;
+    line-height: 30px;
     height: 30px;
-    padding-top: 5px;
-    padding-bottom: 5px;
 }
 .bar_line {
     margin-bottom: 20px;
@@ -76,6 +75,7 @@ span {
   cursor: default;
   width: 25%;
   font-size: 50px;
+  font-size: 3vw;
   display: inline-block;
   color: white;
 }

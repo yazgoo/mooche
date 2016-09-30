@@ -5,7 +5,7 @@ function mooche_status(text) {
   current = current.split("<br>");
   current = [text].concat(current);
   var text = "";
-  for(var i = 0; i < 5 && i < current.length; i++) {
+  for(var i = 0; i < 2 && i < current.length; i++) {
     text += current[i] + "<br>"
   }
   document.getElementById("mooche_status").innerHTML = text;
@@ -50,6 +50,7 @@ function unwarble(warbled) {
     unwarbled = unwarbled.replace(/\{/g, "<span class='part_start_repeat'>&nbsp;</span>");
     unwarbled = unwarbled.replace(/T(.)(.)/g, "<span class='sub_0'>$1</span><span class='sub_1'>$1</span>");
     unwarbled = unwarbled.replace(/\^/g, "&#916;");
+    unwarbled = unwarbled.replace(/,/g, "")
     var splitted = unwarbled.split('');
     var open_div = "<div class='bar_line'>";
     var close_div = "</div>";

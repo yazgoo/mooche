@@ -37,7 +37,7 @@ def install_source(destination, mooche_revision)
   end
 end
 
-def setup_cordova_project(destination, mooche_revision, version)
+def setup_cordova_project(destination, mooche_revision, version, version_code)
     FileUtils.mkdir_p destination
     mooche_path = "#{destination}/mooche"
     Dir.chdir destination do
@@ -47,8 +47,8 @@ def setup_cordova_project(destination, mooche_revision, version)
           "yazgoo/mooche/#{mooche_revision}/index.html"
         replace_in_file "#{mooche_path}/config.xml", "</widget>", 
           '    <icon src="www/yazgoo/mooche/' + mooche_revision + '/favicon.png" />\n</widget>'
-        replace_in_file "#{mooche_path}/config.xml", 'version="0.0.1"', 
-          'version=""' + version + '"'
+        replace_in_file "#{mooche_path}/config.xml", 'version="1.0.0"', 
+          'version="'+version+'" android-versionCode="'+version_code+'"'
         puts `cordova platform add android`
         FileUtils.cp "#{ENV['HOME']}/.ssh/release-signing.properties", "#{mooche_path}/platforms/android/"
       end
@@ -63,6 +63,6 @@ def build_cordova(destination)
     end
 end
 
-setup_cordova_project destination, mooche_revision, Mooche.new.version
+setup_cordova_project destination, mooche_revision, Mooche.new.version, Mooche.new.version_code
 install_source "#{destination}/mooche/www", mooche_revision
 build_cordova destination

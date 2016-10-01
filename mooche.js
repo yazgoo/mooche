@@ -51,6 +51,8 @@ function unwarble(warbled) {
     unwarbled = unwarbled.replace(/T(.)(.)/g, "<span class='sub_0'>$1</span><span class='sub_1'>$1</span>");
     unwarbled = unwarbled.replace(/\^/g, "&#916;");
     unwarbled = unwarbled.replace(/,/g, "")
+    unwarbled = unwarbled.replace(/Q/g, "<span class='coda_o'>O</span><span class='coda_plus'>+</span>")
+    unwarbled = unwarbled.replace(/N([1-9])/g, "<span class='block'>$1</span>");
     var splitted = unwarbled.split('');
     var open_div = "<div class='bar_line'>";
     var close_div = "</div>";

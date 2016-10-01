@@ -30,21 +30,38 @@ span {
 .sub_0 {
     display: inline-block;
     position: relative;
-    left: -13px;
-    top: -1px;
+    left: -1vw;
+    top: -0.1vw;
+    font-size: 1.1vw;
 }
 .sub_1 {
     display: inline-block;
     position: relative;
-    left: -20px;
-    top: 10px;
+    left: -1.6vw;
+    top: 1vw;
+    font-size: 1.1vw;
 }
 .part {
+    font-size: 1vw;
     display: inline-block;
     background-color: black;
     color: white;
     position: relative;
-    top: -20px;
+    top: -2vw;
+    height: 2vw;
+    width: 1.2vw;
+    text-align: center;
+}
+.coda_o {
+  font-weight: normal;
+  padding-left: 0.2vw;
+  padding-top: 0.2vw;
+  position: absolute;
+  font-size: 1.3vw;
+}
+.coda_plus {
+  display: inline-block;
+  font-weight: normal;
 }
 .bar {
     display: inline-block;
@@ -80,6 +97,17 @@ span {
   display: inline-block;
   color: white;
 }
+.block {
+  position: relative;
+  font-width: normal;
+  font-size: 1.5vw;
+  border-left: 2px solid black;
+  border-top: 2px solid black;
+  top: -1.5vw;
+  left: -1.15vw;
+  padding-left: 0.2vw;
+
+}
 #mooche_status {
   width: 20%;
   font-size: 10px;
@@ -90,6 +118,7 @@ span {
   background-color: #eeffff;
   width: 100%;
   padding: 10px;
+  margin-bottom: 20px;
 }
 .mooche_forums {
   width: 100%;

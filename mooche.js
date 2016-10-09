@@ -45,8 +45,8 @@ function unwarble(warbled) {
     for(var i = 0; i + 51 < unwarbled.length; i += 50) {
         unwarbled = mirror_swap(mirror_swap(mirror_swap(unwarbled, i + 10, 29), i + 5, 39), i, 49) } return unwarbled.replace(/XyQ/g, "   ").replace(/Kcl/g, "| x").replace(/LZ/g, "|"); } function get_sheet(unwarbled) {
   console.log(unwarbled)
+    unwarbled = unwarbled.replace(/([^\*])([A-G])(b|#)?/g, "$1<span class='note'>$2</span><span class='alteration'>$3</span>");
     unwarbled = unwarbled.replace(/\*([ABC])/g, "<span class='part'>$1</span>");
-    unwarbled = unwarbled.replace(/([A-G])(b|#)?/g, "<span class='note'>$1</span><span class='alteration'>$2</span>");
     unwarbled = unwarbled.replace(/\[/g, "<span class='part_start'>&nbsp;</span>");
     unwarbled = unwarbled.replace(/\{/g, "<span class='part_start_repeat'>&nbsp;</span>");
     unwarbled = unwarbled.replace(/T(.)(.)/g, "<span class='sub_0'>$1</span><span class='sub_1'>$2</span>");

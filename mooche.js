@@ -233,7 +233,7 @@ function show_songs_list(div) {
     cursor.onsuccess = function(e) {
       var res = e.target.result;
       if(res) {
-        s += "<div class='song' onclick=\"show_song('"+res.key+"')\">" + res.key  + "</div>";
+        s += "<div class='song' onclick=\"show_song('"+res.key.replace(/\'/g, "\\'")+"')\">" + res.key  + "</div>";
         i += 1;
         if(i > 100) {
           songs_list_div.innerHTML += s;

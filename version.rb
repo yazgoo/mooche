@@ -1,8 +1,8 @@
 class Mooche
   def version
-    "0.0.2"
+    "0.0.3"
   end
   def version_code
-    "10001"
+    "10002"
   end
 end
